@@ -5,7 +5,11 @@
  * the number twice.
  */
 export function bookEndList(numbers: number[]): number[] {
-    return numbers;
+    return (
+        numbers.length === 0 ? []
+        : numbers.length === 1 ? [numbers[0], numbers[0]]
+        : [numbers[0], numbers[numbers.length - 1]]
+    );
 }
 
 /**
@@ -13,7 +17,8 @@ export function bookEndList(numbers: number[]): number[] {
  * number has been tripled (multiplied by 3).
  */
 export function tripleNumbers(numbers: number[]): number[] {
-    return numbers;
+    const tripled = numbers.map((integers: number): number => integers * 3);
+    return tripled;
 }
 
 /**
@@ -21,7 +26,10 @@ export function tripleNumbers(numbers: number[]): number[] {
  * the number cannot be parsed as an integer, convert it to 0 instead.
  */
 export function stringsToIntegers(numbers: string[]): number[] {
-    return [];
+    return numbers.map((str) => {
+        const parsed = parseInt(str, 10);
+        return isNaN(parsed) ? 0 : parsed;
+    });
 }
 
 /**
@@ -32,7 +40,14 @@ export function stringsToIntegers(numbers: string[]): number[] {
  */
 // Remember, you can write functions as lambdas too! They work exactly the same.
 export const removeDollars = (amounts: string[]): number[] => {
-    return [];
+    return amounts.map((str) => {
+        // Remove "$" symbol if it exists
+        const sanitizedStr = str.startsWith("$") ? str.slice(1) : str;
+        // Parse the sanitized string as an integer
+        const parsed = parseInt(sanitizedStr, 10);
+        // Return 0 if parsing fails, otherwise return the parsed number
+        return isNaN(parsed) ? 0 : parsed;
+    });
 };
 
 /**
@@ -41,7 +56,11 @@ export const removeDollars = (amounts: string[]): number[] => {
  * in question marks ("?").
  */
 export const shoutIfExclaiming = (messages: string[]): string[] => {
-    return [];
+    return messages
+        .filter((message) => !message.endsWith("?")) // Remove strings that end with "?"
+        .map((message) =>
+            message.endsWith("!") ? message.toUpperCase() : message,
+        );
 };
 
 /**
@@ -49,7 +68,7 @@ export const shoutIfExclaiming = (messages: string[]): string[] => {
  * 4 letters long.
  */
 export function countShortWords(words: string[]): number {
-    return 0;
+    return words.filter((word) => word.length < 4).length;
 }
 
 /**
@@ -58,7 +77,8 @@ export function countShortWords(words: string[]): number {
  * then return true.
  */
 export function allRGB(colors: string[]): boolean {
-    return false;
+    const validColors = ["red", "blue", "green"];
+    return colors.every((color) => validColors.includes(color));
 }
 
 /**
@@ -69,7 +89,12 @@ export function allRGB(colors: string[]): boolean {
  * And the array [] would become "0=0".
  */
 export function makeMath(addends: number[]): string {
-    return "";
+    const sum = addends.reduce((acc, num) => acc + num, 0);
+    // Create a string representation of the numbers joined by "+"
+    const addendsString = addends.join("+");
+    // Handle the case where the array is empty
+    const result = addends.length === 0 ? "0=0" : `${sum}=${addendsString}`;
+    return result;
 }
 
 /**
@@ -82,5 +107,22 @@ export function makeMath(addends: number[]): string {
  * And the array [1, 9, 7] would become [1, 9, 7, 17]
  */
 export function injectPositive(values: number[]): number[] {
-    return [];
+    // Find the index of the first negative number
+    const firstNegativeIndex = values.findIndex((num) => num < 0);
+
+    const sumBeforeNegative =
+        firstNegativeIndex === -1 ?
+            values.reduce((acc, num) => acc + num, 0)
+        :   values
+                .slice(0, firstNegativeIndex)
+                .reduce((acc, num) => acc + num, 0);
+
+    // Create the result array based on the presence of a negative number
+    return firstNegativeIndex === -1 ?
+            [...values, sumBeforeNegative] // No negative number found, append sum to the end
+        :   [
+                ...values.slice(0, firstNegativeIndex + 1), // All elements up to and including the first negative
+                sumBeforeNegative, // Insert the sum after the first negative number
+                ...values.slice(firstNegativeIndex + 1), // All remaining elements
+            ];
 }
