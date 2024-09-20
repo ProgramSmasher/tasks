@@ -7,8 +7,7 @@ import { duplicateQuestion, makeBlankQuestion } from "./objects";
  * that are `published`.
  */
 export function getPublishedQuestions(questions: Question[]): Question[] {
-    const goal = questions.filter((question: Question) => question.published);
-    return goal;
+    return questions.filter((question: Question) => question.published);
 }
 
 /**
@@ -19,11 +18,9 @@ export function getPublishedQuestions(questions: Question[]): Question[] {
 export function getNonEmptyQuestions(questions: Question[]): Question[] {
     return questions.filter(
         (question: Question) =>
-            !(
-                question.body === "" &&
-                question.expected === "" &&
-                question.options.length === 0
-            ),
+            question.body !== "" ||
+            question.expected !== "" ||
+            question.options.length > 0,
     );
 }
 
