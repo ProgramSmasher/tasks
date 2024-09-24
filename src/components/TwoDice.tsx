@@ -12,8 +12,8 @@ export function d6(): number {
 }
 
 export function TwoDice(): React.JSX.Element {
-    const [dice1, setDice1] = useState<number>(5);
-    const [dice2, setDice2] = useState<number>(3);
+    const [dice1, setDice1] = useState<number>(1);
+    const [dice2, setDice2] = useState<number>(2);
 
     function rollDie(dieUsed: string): void {
         {
@@ -38,7 +38,7 @@ export function TwoDice(): React.JSX.Element {
             >
                 Roll Left
             </Button>
-            <span data-testid="left-die" style={{ marginRight: "20px" }}>
+            <span data-testid="left-die" style={{ marginRight: "10px" }}>
                 {dice1}
             </span>
             <Button
@@ -48,7 +48,7 @@ export function TwoDice(): React.JSX.Element {
             >
                 Roll Right
             </Button>
-            <span data-testid="right-die" style={{ marginRight: "20px" }}>
+            <span data-testid="right-die" style={{ marginRight: "10px" }}>
                 {dice2}
             </span>
 
