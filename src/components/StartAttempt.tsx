@@ -5,16 +5,19 @@ export function StartAttempt(): React.JSX.Element {
     const [lives, setLives] = useState<number>(4);
     const [playing, setPlaying] = useState<boolean>(false);
 
-    function changeStatus(): void {
-        setPlaying(!playing);
-        if (!playing) {
-            setLives(lives - 1);
-        }
-    }
+    const changeStatus = (): void => {
+        setPlaying((prevPlaying) => {
+            const newPlaying = !prevPlaying;
+            if (!prevPlaying) {
+                setLives((prevLives) => prevLives - 1);
+            }
+            return newPlaying;
+        });
+    };
 
-    function addLife(): void {
-        setLives(lives + 1);
-    }
+    const addLife = (): void => {
+        setLives((prevLives) => prevLives + 1);
+    };
 
     return (
         <span>
